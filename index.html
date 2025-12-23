@@ -1,0 +1,348 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lista de Condutas - Autoanálise</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background-color: #f5f5f5;
+            color: #333;
+            line-height: 1.6;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+            padding: 30px;
+        }
+        
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid #e0e0e0;
+        }
+        
+        .header h1 {
+            color: #2c3e50;
+            margin-bottom: 10px;
+        }
+        
+        .quote {
+            font-style: italic;
+            color: #7f8c8d;
+            background-color: #f8f9fa;
+            padding: 15px;
+            border-radius: 5px;
+            margin: 20px 0;
+            border-left: 4px solid #3498db;
+        }
+        
+        .instructions {
+            background-color: #e8f4fc;
+            padding: 15px;
+            border-radius: 5px;
+            margin-bottom: 25px;
+            font-size: 0.95rem;
+        }
+        
+        .form-section {
+            margin-bottom: 30px;
+        }
+        
+        .section-title {
+            background-color: #2c3e50;
+            color: white;
+            padding: 10px 15px;
+            border-radius: 5px;
+            margin-bottom: 15px;
+            font-size: 1.2rem;
+        }
+        
+        .checklist-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 15px;
+        }
+        
+        .checkbox-item {
+            display: flex;
+            align-items: center;
+            padding: 10px;
+            background-color: #f9f9f9;
+            border-radius: 5px;
+            transition: background-color 0.2s;
+        }
+        
+        .checkbox-item:hover {
+            background-color: #f0f0f0;
+        }
+        
+        .checkbox-item input {
+            margin-right: 12px;
+            width: 18px;
+            height: 18px;
+        }
+        
+        .checkbox-item label {
+            flex-grow: 1;
+            cursor: pointer;
+        }
+        
+        .buttons {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin-top: 40px;
+            padding-top: 20px;
+            border-top: 1px solid #e0e0e0;
+        }
+        
+        button {
+            padding: 12px 30px;
+            border: none;
+            border-radius: 5px;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-weight: 600;
+        }
+        
+        #submitBtn {
+            background-color: #3498db;
+            color: white;
+        }
+        
+        #submitBtn:hover {
+            background-color: #2980b9;
+        }
+        
+        #resetBtn {
+            background-color: #e74c3c;
+            color: white;
+        }
+        
+        #resetBtn:hover {
+            background-color: #c0392b;
+        }
+        
+        #clearBtn {
+            background-color: #95a5a6;
+            color: white;
+        }
+        
+        #clearBtn:hover {
+            background-color: #7f8c8d;
+        }
+        
+        .results {
+            margin-top: 30px;
+            padding: 20px;
+            background-color: #f8f9fa;
+            border-radius: 5px;
+            display: none;
+        }
+        
+        .results h3 {
+            color: #2c3e50;
+            margin-bottom: 15px;
+        }
+        
+        .selected-items {
+            max-height: 300px;
+            overflow-y: auto;
+            padding: 10px;
+            background-color: white;
+            border-radius: 5px;
+            border: 1px solid #e0e0e0;
+        }
+        
+        .selected-item {
+            padding: 8px 10px;
+            margin-bottom: 5px;
+            background-color: #f1f8ff;
+            border-radius: 3px;
+            border-left: 3px solid #3498db;
+        }
+        
+        .footer {
+            text-align: center;
+            margin-top: 30px;
+            padding-top: 20px;
+            border-top: 1px solid #e0e0e0;
+            color: #7f8c8d;
+            font-size: 0.9rem;
+        }
+        
+        @media (max-width: 768px) {
+            .checklist-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .buttons {
+                flex-direction: column;
+            }
+            
+            button {
+                width: 100%;
+                margin-bottom: 10px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Lista de Condutas - Autoanálise</h1>
+            <p>Uma ferramenta para reflexão pessoal baseada em valores espirituais</p>
+        </div>
+        
+        <div class="quote">
+            "O principal elemento para uma vida livre do pecado é o arrependimento"
+        </div>
+        
+        <div class="instructions">
+            <p><strong>Instruções:</strong> Marque as caixas ao lado das condutas que você reconhece ter praticado ou que têm sido um desafio em sua vida. Este formulário é para fins de autoanálise e reflexão pessoal.</p>
+        </div>
+        
+        <div class="form-section">
+            <div class="section-title">Condutas e Comportamentos</div>
+            <div class="checklist-grid" id="checklistContainer">
+                <!-- As opções serão inseridas aqui pelo JavaScript -->
+            </div>
+        </div>
+        
+        <div class="buttons">
+            <button id="submitBtn">Verificar Seleções</button>
+            <button id="clearBtn">Limpar Seleções</button>
+            <button id="resetBtn">Redefinir Tudo</button>
+        </div>
+        
+        <div class="results" id="resultsSection">
+            <h3>Itens Selecionados para Reflexão:</h3>
+            <p>Você selecionou <span id="selectedCount">0</span> item(ns) para reflexão e possível arrependimento.</p>
+            <div class="selected-items" id="selectedItems">
+                <!-- Itens selecionados aparecerão aqui -->
+            </div>
+        </div>
+        
+        <div class="footer">
+            <p>Este formulário é baseado em uma lista de condutas para autoavaliação. Use-o como ferramenta para reflexão pessoal e crescimento espiritual.</p>
+            <p>© 2023 - Ferramenta de Autoanálise</p>
+        </div>
+    </div>
+
+    <script>
+        // Lista de condutas da imagem
+        const sinsList = [
+            "Aborto", "Infidelidade", "Retenção de Dizimos", "Aduiterio", "Sem misericórdia", 
+            "Retenção de Ofertas", "Arrogante", "Ladrão", "Sadismo", "Autoritario", 
+            "Jogos de Azar", "RPG (jogo da morte)", "Briguento", "Mania de Doença", 
+            "Fornicação", "Covarde", "Murmuração", "Suicídio", "Drogras", "negligencia", 
+            "Horoscopo", "Feitiçaria", "Odio", "Suborno", "Imoral", "Pacto Satanico", 
+            "Pirataria", "Impuro", "Preguiça", "Nova era", "Injuriador", "Racismo", 
+            "Consumismo", "Abusador", "Religiosidade", "Benzimentos", "Agressivo", 
+            "Sadismo", "Amor ao dinheiro", "Ciume Doentio", "Simpatias e supertições", 
+            "Cartomancia", "Acomodado", "Vingativo", "Umbanda", "Cruel", "Intolerante", 
+            "Calote", "Destruidor", "Lascivo", "Pichação", "Coração Duro", "Masturbação", 
+            "Orixas/Vodu", "Enganador", "Mentira", "Estupro", "Facção", "Música Satânica", 
+            "Traição", "Vício do Cigarro", "Palavrões", "Assasi nato", "Hipocrita", 
+            "Pronografia", "Festas idol atras", "Sexo com familiares", "Prostituição", 
+            "Retenção de primicias", "Injusto", "Rancor", "Pedofilia", "Acusador", 
+            "Sado masoquismo", "Idolatria", "Avarento", "violento", "Incredulidade", 
+            "Caçoador", "Inveja", "Pensamentos Imorais", "Rebeldia", "irreverência", 
+            "Racionalismo", "Primeira Comunhão", "Vaidade", "Crisma", "Lesbianismo", 
+            "Egoísmo", "Mesquinho", "Ganancia", "Opressor", "Homossexualismo", 
+            "Ressentido", "Adivinhação", "Sonegador", "Sexo com Animais", "Iracundo", 
+            "Caluniador", "Intelectualismo", "Cobiçoso", "Imprudente", "Desonesto", 
+            "Male dicente", "Vício do Alcool", "Espirito de Miseria", "Glutonaria", 
+            "Ocultismo"
+        ];
+
+        // Função para renderizar a lista de opções
+        function renderChecklist() {
+            const container = document.getElementById('checklistContainer');
+            
+            sinsList.forEach((sin, index) => {
+                const checkboxItem = document.createElement('div');
+                checkboxItem.className = 'checkbox-item';
+                
+                checkboxItem.innerHTML = `
+                    <input type="checkbox" id="sin${index}" name="sin" value="${sin}">
+                    <label for="sin${index}">${sin}</label>
+                `;
+                
+                container.appendChild(checkboxItem);
+            });
+        }
+
+        // Função para mostrar os itens selecionados
+        function showSelectedItems() {
+            const checkboxes = document.querySelectorAll('input[name="sin"]:checked');
+            const selectedItemsContainer = document.getElementById('selectedItems');
+            const selectedCount = document.getElementById('selectedCount');
+            const resultsSection = document.getElementById('resultsSection');
+            
+            selectedItemsContainer.innerHTML = '';
+            
+            if (checkboxes.length === 0) {
+                selectedItemsContainer.innerHTML = '<p class="selected-item">Nenhum item selecionado.</p>';
+                resultsSection.style.display = 'block';
+                selectedCount.textContent = '0';
+                return;
+            }
+            
+            selectedCount.textContent = checkboxes.length;
+            
+            checkboxes.forEach(checkbox => {
+                const itemDiv = document.createElement('div');
+                itemDiv.className = 'selected-item';
+                itemDiv.textContent = checkbox.value;
+                selectedItemsContainer.appendChild(itemDiv);
+            });
+            
+            resultsSection.style.display = 'block';
+            resultsSection.scrollIntoView({ behavior: 'smooth' });
+        }
+
+        // Função para limpar todas as seleções
+        function clearSelections() {
+            const checkboxes = document.querySelectorAll('input[name="sin"]');
+            checkboxes.forEach(checkbox => {
+                checkbox.checked = false;
+            });
+            
+            document.getElementById('resultsSection').style.display = 'none';
+        }
+
+        // Função para redefinir completamente (recarregar a página)
+        function resetAll() {
+            if (confirm("Tem certeza que deseja redefinir tudo? Todas as seleções serão perdidas.")) {
+                location.reload();
+            }
+        }
+
+        // Inicializar o formulário quando a página carregar
+        document.addEventListener('DOMContentLoaded', function() {
+            renderChecklist();
+            
+            // Adicionar event listeners aos botões
+            document.getElementById('submitBtn').addEventListener('click', showSelectedItems);
+            document.getElementById('clearBtn').addEventListener('click', clearSelections);
+            document.getElementById('resetBtn').addEventListener('click', resetAll);
+        });
+    </script>
+</body>
+</html>
